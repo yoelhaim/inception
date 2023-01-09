@@ -1,0 +1,22 @@
+version: '3'
+services:
+  ngnix:
+    container_name: ngnix_container
+    build: ./requirements/nginx/.
+    ports:
+      - 80:80
+  mariadb:
+    container_name: mariadb_container
+    build: ./requirements/mariadb/.
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    # volumes:
+    #   - ./requirements/mariadb:mariadb:ro
+  wordpress:
+    container_name: woedpress_container
+    build: ./requirements/wordpress/.
+    ports:
+      - 9000:9000
+    env_file: ./.env
