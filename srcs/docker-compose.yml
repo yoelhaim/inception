@@ -1,4 +1,23 @@
 version: '3'
+
+volumes:
+        wordpress:
+                name: wordpress
+                driver: local
+                driver_opts:
+                        device: /Users/pro/Desktop/inception/srcs/requirements/wordpress
+                        o: bind
+                        type: none
+        mariadb:
+                name: mariadb
+                driver: local
+                driver_opts:
+                        device: /Users/pro/Desktop/inception/srcs/requirements/mariadb
+                        o: bind
+                        type: non
+networks:
+  inception:
+    name: inception
 services:
   ngnix:
     container_name: ngnix_container
@@ -10,17 +29,27 @@ services:
     build: ./requirements/mariadb/.
     ports:
       - 8080:8080
+    volumes:
+      - mariadb:/var/lib/mysql
     env_file:
       - .env
-    # volumes:
-    #   - ./requirements/mariadb:mariadb:ro
+    networks:
+      - inception
+    restart: always
   wordpress:
     container_name: wordpress_container
     build: ./requirements/wordpress/.
     ports:
       - 9000:9000
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress:/var/www/html
     env_file:
       - .env
+    networks:
+      - inception
+    restart: always
   myweb:
     container_name: myweb_container
     build: ./requirements/bonus/website/.
