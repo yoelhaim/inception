@@ -29,8 +29,8 @@ services:
     build: ./requirements/mariadb/.
     ports:
       - 8080:8080
-    volumes:
-      - mariadb:/var/lib/mysql
+    # volumes:
+    #   - mariadb:/var/lib/mysql
     env_file:
       - .env
     networks:
