@@ -1,6 +1,15 @@
 FROM debian:buster
 
-RUN apt-get update -y && apt-get install curl -y && apt-get install php php-fpm php-mysql -y
-COPY tools.sh /
+RUN apt update -y 
+RUN apt install php-fpm php-mysql -y
+RUN apt install curl -y
 
-CMD ["tools.sh"]
+COPY ./config/tools.sh /
+COPY ./config/wp-config.php /
+
+
+
+RUN chmod 777 /tools.sh
+RUN chmod 777 /wp-config.php
+
+CMD ["/tools.sh"]

@@ -9,14 +9,22 @@ services:
     container_name: mariadb_container
     build: ./requirements/mariadb/.
     ports:
-      - 3000:3000
+      - 8080:8080
     env_file:
-      - ./.env
+      - .env
     # volumes:
     #   - ./requirements/mariadb:mariadb:ro
   wordpress:
-    container_name: woedpress_container
+    container_name: wordpress_container
     build: ./requirements/wordpress/.
     ports:
       - 9000:9000
-    env_file: ./.env
+    env_file:
+      - .env
+  myweb:
+    container_name: myweb_container
+    build: ./requirements/bonus/website/.
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
