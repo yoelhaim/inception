@@ -1,8 +1,11 @@
 #!bin/bash
+service mysql start 
 
-echo "CREATE DATABASE IF NOT EXISTS youmer ;" > db1.sql
-echo "CREATE USER IF NOT EXISTS 'youmer'@'%' IDENTIFIED BY '@@@123' ;" >> db1.sql
-echo "GRANT ALL PRIVILEGES ON posts.* TO 'youmer'@'%' ;" >> db1.sql
-echo "FLUSH PRIVILEGES;" >> db1.sql
+echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DB ;" > mysql.sql
+echo "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' ;" >> mysql.sql
+echo "GRANT ALL PRIVILEGES ON posts.* TO '$MYSQL_USER'@'%' ;" >> mysql.sql
+echo "FLUSH PRIVILEGES;" >> mysql.sql
 
-mysql < db1.sql
+mysql < mysql.sql
+
+mysqld_safe

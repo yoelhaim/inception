@@ -1,48 +1,31 @@
-version: '3'
+version: '3.5'
 
 volumes:
-        wordpress:
-                name: wordpress
-                driver: local
-                driver_opts:
-                        device: /Users/pro/Desktop/inception/srcs/requirements/wordpress
-                        o: bind
-                        type: none
-        mariadb:
-                name: mariadb
-                driver: local
-                driver_opts:
-                        device: /Users/pro/Desktop/inception/srcs/requirements/mariadb
-                        o: bind
-                        type: non
+  wordpress:
+    name: wordpress_ss
+    driver: local
+    driver_opts:
+      device: //Users/yoelhaim/42/inception/srcs/requirements/wordpress/site
+      o: bind
+      type: none
+#   mariadb:
+#     name: mariadb
+#     driver: local
+#     driver_opts:
+#       device: /Users/pro/Desktop/inception/srcs/requirements/mariadb
+#       o: bind
+#       type: non
 networks:
   inception:
     name: inception
 services:
-  ngnix:
-    container_name: ngnix_container
-    build: ./requirements/nginx/.
-    ports:
-      - 443:443
-  mariadb:
-    container_name: mariadb_container
-    build: ./requirements/mariadb/.
-    ports:
-      - 8080:8080
-    # volumes:
-    #   - mariadb:/var/lib/mysql
-    env_file:
-      - .env
-    networks:
-      - inception
-    restart: always
   wordpress:
     container_name: wordpress_container
     build: ./requirements/wordpress/.
     ports:
       - 9000:9000
-    depends_on:
-      - mariadb
+    # depends_on:
+    #   - mariadb
     volumes:
       - wordpress:/var/www/html
     env_file:
@@ -50,10 +33,31 @@ services:
     networks:
       - inception
     restart: always
-  myweb:
-    container_name: myweb_container
-    build: ./requirements/bonus/website/.
+  ngnix:
+    container_name: ngnix_container
+    build: ./requirements/nginx/.
     ports:
-      - 3000:3000
-    env_file:
-      - .env
+      - 443:443
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - wordpress
+        # mariadb:
+        #   container_name: mariadb_container
+        #   build: ./requirements/mariadb/.
+        #   ports:
+        #     - 3306:3306
+        #   # volumes:
+        #   #   - mariadb:/var/lib/mysql
+        #   env_file:
+        #     - .env
+        #   networks:
+        #     - inception
+        #   restart: always
+  # myweb:
+  #   container_name: myweb_container
+  #   build: ./requirements/bonus/website/.
+  #   ports:
+  #     - 3000:3000
+  #   env_file:
+  #     - .env
