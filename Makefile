@@ -1,6 +1,6 @@
 SRCS = ./srcs
 
-run:
+up:
 	docker-compose -f $(SRCS)/docker-compose.yml  up -d 
 
 down:
@@ -8,4 +8,5 @@ down:
 
 status:
 	@docker ps
-
+img:
+	@docker images

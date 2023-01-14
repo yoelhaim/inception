@@ -8,9 +8,9 @@ RUN apt install wget -y
 
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY ./config/tools.sh /
-COPY ./config/wp-config.php /
-COPY ./config/php.conf /etc/php/7.3/fpm/pool.d
+COPY ./tools/tools.sh /
+COPY ./tools/wp-config.php /
+COPY ./tools/php.conf /etc/php/7.3/fpm/pool.d
 RUN service php7.3-fpm start
 RUN chmod 777 /tools.sh
 RUN chmod 777 /wp-config.php
