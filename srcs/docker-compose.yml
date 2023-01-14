@@ -2,30 +2,45 @@ version: '3.5'
 
 volumes:
   wordpress:
-    name: wordpress_ss
-    driver: local
-    driver_opts:
-      device: //Users/yoelhaim/42/inception/srcs/requirements/wordpress/site
-      o: bind
-      type: none
-#   mariadb:
-#     name: mariadb
-#     driver: local
-#     driver_opts:
-#       device: /Users/pro/Desktop/inception/srcs/requirements/mariadb
-#       o: bind
-#       type: non
+  mariadb:
+    # name: wordpress_ss
+    # driver: local
+    # driver_opts:
+    #   device: //Users/yoelhaim/42/inception/srcs/requirements/wordpress/site
+    #   o: bind
+    #   type: none
+    #   mariadb:
+    #     name: mariadb
+    #     driver: local
+    #     driver_opts:
+    #       device: /Users/pro/Desktop/inception/srcs/requirements/mariadb
+    #       o: bind
+    #       type: non
 networks:
   inception:
     name: inception
 services:
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    build: ./requirements/mariadb/.
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      - inception
+    restart: always
   wordpress:
-    container_name: wordpress_container
+    image: wordpress
+    container_name: wordpress
     build: ./requirements/wordpress/.
     ports:
       - 9000:9000
-    # depends_on:
-    #   - mariadb
+    depends_on:
+      - mariadb
     volumes:
       - wordpress:/var/www/html
     env_file:
@@ -34,6 +49,7 @@ services:
       - inception
     restart: always
   ngnix:
+    image: nginx
     container_name: ngnix_container
     build: ./requirements/nginx/.
     ports:
@@ -42,18 +58,8 @@ services:
       - wordpress:/var/www/html
     depends_on:
       - wordpress
-        # mariadb:
-        #   container_name: mariadb_container
-        #   build: ./requirements/mariadb/.
-        #   ports:
-        #     - 3306:3306
-        #   # volumes:
-        #   #   - mariadb:/var/lib/mysql
-        #   env_file:
-        #     - .env
-        #   networks:
-        #     - inception
-        #   restart: always
+    networks:
+      - inception
   # myweb:
   #   container_name: myweb_container
   #   build: ./requirements/bonus/website/.
