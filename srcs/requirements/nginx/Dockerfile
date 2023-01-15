@@ -8,14 +8,13 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private
 
 
 COPY ./tools/nginx.conf /etc/nginx/
-COPY ./tools/tools.sh /
-COPY  ./tools/keys/sign.crt /
-COPY  ./tools/keys/private_key.key /
+# COPY  ./tools/keys/sign.crt /etc/ssl/certs/nginx-selfsigned.crt
+# COPY  ./tools/keys/private_key.key /etc/ssl/private/nginx-selfsigned.key
 
 EXPOSE 443
 
 # COPY index.html /var/www/html
-RUN chmod 777 /tools.sh
+# RUN chmod 777 /tools.sh
 
 # ENTRYPOINT [ "/tools.sh" ]
 

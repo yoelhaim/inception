@@ -62,10 +62,23 @@ services:
       - inception
     env_file:
       - .env
-  # myweb:
-  #   container_name: myweb_container
-  #   build: ./requirements/bonus/website/.
-  #   ports:
-  #     - 3000:3000
-  #   env_file:
-  #     - .env
+  myweb:
+    container_name: myweb_container
+    build: ./requirements/bonus/website/.
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+  adminer:
+    image: adminer
+    container_name: adminer_container
+    build: ./requirements/bonus/adminer/.
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    restart: always
