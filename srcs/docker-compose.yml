@@ -2,23 +2,23 @@ version: '3.5'
 
 volumes:
   wordpress:
+    name: v_wp
+    driver: local
+    driver_opts:
+      device: /Users/yoelhaim/Desktop/docker/services
+      o: bind
+      type: none
   mariadb:
-    # name: wordpress_ss
-    # driver: local
-    # driver_opts:
-    #   device: //Users/yoelhaim/42/inception/srcs/requirements/wordpress/site
-    #   o: bind
-    #   type: none
-    #   mariadb:
-    #     name: mariadb
-    #     driver: local
-    #     driver_opts:
-    #       device: /Users/pro/Desktop/inception/srcs/requirements/mariadb
-    #       o: bind
-    #       type: non
+    name: v_mariadb
+    driver: local
+    driver_opts:
+      device: /Users/yoelhaim/Desktop/docker/mariadb
+      o: bind
+      type: none
 networks:
   inception:
     name: inception
+    driver: bridge
 services:
   mariadb:
     image: mariadb
@@ -63,6 +63,7 @@ services:
     env_file:
       - .env
   myweb:
+    image: portfolio
     container_name: myweb_container
     build: ./requirements/bonus/website/.
     ports:
@@ -71,12 +72,16 @@ services:
       - .env
   adminer:
     image: adminer
-    container_name: adminer_container
+    container_name: adminer
     build: ./requirements/bonus/adminer/.
     ports:
-      - 8080:8080
+      - 8082:8080
     env_file:
       - .env
+    links:
+      - mariadb
+    # volumes:
+    #   - wordpress:/var/www/html
     depends_on:
       - mariadb
     networks:

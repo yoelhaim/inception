@@ -6,7 +6,7 @@ RUN apt-get install openssl -y
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY src/index.html /var/www/html
+COPY out /var/www/html
 
 EXPOSE 443
 

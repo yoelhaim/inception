@@ -1,19 +1,21 @@
 FROM debian:buster
 
-RUN apt update -y
-RUN apt install wget -y && apt install php php-mysql  -y
 
-COPY ./tools/script.sh /
+EXPOSE 8080
+ARG PHP_VERSION=8
+RUN apt-get update -y
+RUN apt-get install -y php php7.3-fpm php7.3-mysql mariadb-client wget
 
-RUN chmod 777 ./script.sh
+# RUN rm -rf /var/lib/apt/lists/*
 
-RUN wget "http://www.adminer.org/latest.php" -O /var/www/html/adminer.php 
-RUN chown -R www-data:www-data /var/www/html/adminer.php 
-RUN chmod 755 /var/www/html/adminer.php
+COPY ./tools/php.conf /etc/php/7.3/fpm/pool.d
 
+RUN mkdir /run/php
 
-RUN cd /var/www/html
+ADD https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php /var/www/adminer/index.php
 
-RUN rm -rf index.html
+RUN chown -R www-data:www-data /var/www/adminer/index.php
+RUN chmod 755 /var/www/adminer/index.php
 
-CMD [ "./script.sh" ]
+# CMD ["/usr/sbin/php-fpm7.3", "--nodaemonize", "--allow-to-run-as-root"]
+CMD	[ "php", "-S", "[::]:8080", "-t", "/var/www" ]
