@@ -1,7 +1,7 @@
 SRCS = ./srcs
 
 up:
-	docker-compose -f $(SRCS)/docker-compose.yml  up -d 
+	docker-compose -f $(SRCS)/docker-compose.yml  up -d --build
 
 down:
 	docker-compose -f $(SRCS)/docker-compose.yml down

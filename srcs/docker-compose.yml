@@ -21,7 +21,7 @@ networks:
     driver: bridge
 services:
   mariadb:
-    image: mariadb
+    image: mariadb:42
     container_name: mariadb
     build: ./requirements/mariadb/.
     ports:
@@ -34,7 +34,7 @@ services:
       - inception
     restart: always
   wordpress:
-    image: wordpress
+    image: wordpress:42
     container_name: wordpress
     build: ./requirements/wordpress/.
     ports:
@@ -49,7 +49,7 @@ services:
       - inception
     restart: always
   ngnix:
-    image: nginx
+    image: nginx:42
     container_name: ngnix_container
     build: ./requirements/nginx/.
     ports:
@@ -63,7 +63,7 @@ services:
     env_file:
       - .env
   myweb:
-    image: portfolio
+    image: portfolio:42
     container_name: myweb_container
     build: ./requirements/bonus/website/.
     ports:
@@ -71,17 +71,13 @@ services:
     env_file:
       - .env
   adminer:
-    image: adminer
+    image: adminer:42
     container_name: adminer
     build: ./requirements/bonus/adminer/.
     ports:
-      - 8082:8080
+      - "500:500"
     env_file:
       - .env
-    links:
-      - mariadb
-    # volumes:
-    #   - wordpress:/var/www/html
     depends_on:
       - mariadb
     networks:

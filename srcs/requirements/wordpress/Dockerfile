@@ -12,7 +12,4 @@ RUN service php7.3-fpm start
 RUN chmod 777 /tools.sh
 RUN chmod 777 /wp-config.php
 
-# ENTRYPOINT  ["/tools.sh"]
-
-# CMD ["/usr/sbin/php-fpm7.3","--nodaemonize"]
 CMD ["/tools.sh"]
