@@ -5,14 +5,14 @@ volumes:
     name: v_wp
     driver: local
     driver_opts:
-      device: /Users/yoelhaim/Desktop/docker/services
+      device: /home/yoelhaim/data/Wordpress
       o: bind
       type: none
   mariadb:
     name: v_mariadb
     driver: local
     driver_opts:
-      device: /Users/yoelhaim/Desktop/docker/mariadb
+      device: /home/yoelhaim/data/DB
       o: bind
       type: none
 networks:
@@ -48,9 +48,9 @@ services:
     networks:
       - inception
     restart: always
-  ngnix:
+  nginx:
     image: nginx:42
-    container_name: ngnix_container
+    container_name: nginx
     build: ./requirements/nginx/.
     ports:
       - 443:443
@@ -80,6 +80,16 @@ services:
       - .env
     depends_on:
       - mariadb
+    networks:
+      - inception
+    restart: always
+  ctop:
+    image: ctop:42
+    container_name: ctop
+    tty: true
+    build: ./requirements/bonus/serves/.
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - inception
     restart: always

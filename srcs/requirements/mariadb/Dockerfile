@@ -8,5 +8,8 @@ RUN sed -i '19s/#port/port/'  /etc/mysql/mariadb.conf.d/50-server.cnf
 
 
 COPY ./tools/config.sh /
+
+RUN chmod 777 /config.sh
+
 ENTRYPOINT [ "/config.sh" ]
 CMD [ "mysqld_safe" ]
