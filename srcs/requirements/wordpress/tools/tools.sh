@@ -7,7 +7,7 @@ cd /var/www/html
 
 #install Wordpress 
 wget http://wordpress.org/latest.tar.gz 
-tar -xzvf latest.tar.gz
+tar -xvf latest.tar.gz
 rm /var/www/html/latest.tar.gz
 cp -r wordpress/* .
 rm -rf wordpress
