@@ -6,7 +6,6 @@ RUN apt install wget -y
 
 COPY ./tools/tools.sh /
 COPY ./tools/wp-config.php /
-COPY ./tools/php.conf /etc/php/7.3/fpm/pool.d
 RUN service php7.3-fpm start 
 
 RUN chmod 777 /tools.sh
